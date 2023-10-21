@@ -42,6 +42,5 @@ class Server:
         data = self.dataset()
 
         start, stop = index_range(page, page_size)
-        if start >= len(data) or stop >= len(data):
-            return []
-        return data[start:stop]
+        return [] if (start >= len(data) or
+                      stop >= len(data)) else data[start:stop]
