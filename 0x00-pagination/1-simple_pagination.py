@@ -40,9 +40,8 @@ class Server:
         assert page > 0 and page_size > 0
 
         data = self.dataset()
-        # if data:
+
         start, stop = index_range(page, page_size)
-        if start >= len(self.__dataset) or stop >= len(self.__dataset):
+        if start >= len(data) or stop >= len(data):
             return []
         return data[start:stop]
-        # return []
