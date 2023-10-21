@@ -36,13 +36,13 @@ class Server:
         return self.__dataset
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
-        assert type(page) == int and type(page_size) == int
+        assert isinstance(page, int) and isinstance(page_size, int)
         assert page > 0 and page_size > 0
 
         data = self.dataset()
         # if data:
         start, stop = index_range(page, page_size)
-        if start > len(self.__dataset) or stop > len(self.__dataset):
+        if start >= len(self.__dataset) or stop >= len(self.__dataset):
             return []
         return data[start:stop]
         # return []
