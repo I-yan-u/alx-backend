@@ -22,7 +22,7 @@ class Server:
 
     def __init__(self):
         self.__dataset = None
-        self.dataset()
+        # self.dataset()
 
     def dataset(self) -> List[List]:
         """Cached dataset
@@ -39,9 +39,10 @@ class Server:
         assert isinstance(page_size, int) and isinstance(page, int)
         assert page_size > 0 and page > 0
 
-        if self.__dataset:
+        data = self.dataset()
+        if data:
             start, stop = index_range(page, page_size)
-            if start > len(self.__dataset) and stop > len(self.__dataset):
+            if start > len(self.__dataset) or stop > len(self.__dataset):
                 return []
-            return self.__dataset[start:stop]
+            return data[start:stop]
         return []
