@@ -45,7 +45,7 @@ class Server:
         return [] if (start >= len(data) or
                       stop >= len(data)) else data[start:stop]
 
-    def get_hyper(self, page: int = 1, 
+    def get_hyper(self, page: int = 1,
                   page_size: int = 10) -> Dict[str, Union[str, List]]:
         """
         A hypermedia pagination method.
@@ -68,6 +68,6 @@ class Server:
         data_store['total_pages'] = total_pages
         if got_page == []:
             return data_store
-        data_store['page_size'] = page_size        
+        data_store['page_size'] = page_size
         data_store['data'] = got_page
         return data_store
