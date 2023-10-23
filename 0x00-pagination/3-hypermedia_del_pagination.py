@@ -51,9 +51,9 @@ class Server:
         data = []
         for i in range(start, start + page_size):
             data.append(data_set[i])
-            
+
         return {
-            'index' : index,
+            'index': index,
             'data': data,
             'page_size': page_size,
             'next_index': start + page_size
