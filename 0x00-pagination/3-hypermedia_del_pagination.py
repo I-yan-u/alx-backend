@@ -42,17 +42,19 @@ class Server:
     def get_hyper_index(self, index: int = None, page_size: int = 10) -> Dict:
         """Get hypermedia object with provided index
         """
-        assert index in range(len(self.indexed_dataset()))
-        next_index = index + page_size
-        data = list()
-        for i in range(index, index + page_size):
-            if not self.indexed_dataset().get(i):
-                next_index += 1
-            data.append(self.indexed_dataset().get(i))
+        assert index < len(self.__indexed_dataset)
+        data_set = self.indexed_dataset()
+        start = index
+        while start not in data_set:
+            start += 1
+
+        data = []
+        for i in range(start, start + page_size):
+            data.append(data_set[i])
 
         return {
-            "index": index,
-            "next_index": next_index,
-            "page_size": page_size,
-            "data": data
+            'index': index,
+            'data': data,
+            'page_size': page_size,
+            'next_index': start + page_size
         }
