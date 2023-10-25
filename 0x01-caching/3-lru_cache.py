@@ -26,12 +26,6 @@ class LRUCache(BaseCaching):
         else:
             if key in self.cache_data.keys():
                 self.cache_data[key] = item
-                self.count += 1
-                for k, v in self.time_keeper.items():
-                    if key == v:
-                        del self.time_keeper[k]
-                        break
-                self.time_keeper[self.count] = key                
             elif len(self.cache_data) < BaseCaching.MAX_ITEMS:
                 self.cache_data[key] = item
                 self.time_keeper[self.count] = key
