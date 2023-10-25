@@ -6,12 +6,21 @@ BaseCaching = __import__('base_caching').BaseCaching
 
 
 class LRUCache(BaseCaching):
+    """
+    Least recently used cache manager
+    """
     def __init__(self):
+        """
+        Initialize the LRUCache
+        """
         super().__init__()
         self.time_keeper = {}
         self.count = 0
 
     def put(self, key, item):
+        """
+        Puts an Item in the LRUCache with the given key
+        """
         if key is None or item is None:
             pass
         else:
