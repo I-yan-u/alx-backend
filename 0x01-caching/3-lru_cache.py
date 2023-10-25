@@ -10,7 +10,7 @@ class LRUCache(BaseCaching):
         super().__init__()
         self.time_keeper = {}
         self.count = 0
-        
+
     def put(self, key, item):
         if key is None or item is None:
             pass
@@ -29,7 +29,6 @@ class LRUCache(BaseCaching):
                 self.cache_data[key] = item
                 self.count += 1
                 self.time_keeper[self.count] = key
-
 
     def get(self, key):
         """
