@@ -1,54 +1,38 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
+""" LRU caching
 """
-BaseCaching module
-"""
+
+
 BaseCaching = __import__('base_caching').BaseCaching
 
 
 class LRUCache(BaseCaching):
-    """
-    Least recently used cache manager
+    """ LRUCache
     """
     def __init__(self):
-        """
-        Initialize the LRUCache
-        """
         super().__init__()
-        self.time_keeper = {}
-        self.count = 0
+        self.history = []
 
     def put(self, key, item):
+        """ assigns the new item to the dictionary
         """
-        Puts an Item in the LRUCache with the given key
-        """
-        if key is None or item is None:
-            pass
-        else:
-            if key in self.cache_data.keys():
-                self.cache_data[key] = item
-            elif len(self.cache_data) < BaseCaching.MAX_ITEMS:
-                self.cache_data[key] = item
-                self.time_keeper[self.count] = key
-                self.count += 1
-            else:
-                used_list = sorted(self.time_keeper.keys())
-                print(f'DISCARD: {self.time_keeper[used_list[0]]}')
-                del self.cache_data[self.time_keeper[used_list[0]]]
-                del self.time_keeper[used_list[0]]
-                self.cache_data[key] = item
-                self.count += 1
-                self.time_keeper[self.count] = key
+        if not (key is None or item is None):
+            if len(self.cache_data) >= BaseCaching.MAX_ITEMS\
+                 and key not in self.cache_data:
+                print(f'DISCARD: {self.history[0]}')
+                self.cache_data.pop(self.history[0])
+                del self.history[0]
+            if key in self.history:
+                del self.history[self.history.index(key)]
+            self.history.append(key)
+            self.cache_data[key] = item
 
     def get(self, key):
+        """ returns the value in self.cache_data linked to key
         """
-        Gets cached data from memory using the given key
-        """
-        if not key or key not in self.cache_data.keys():
+        if key is None or not (key in self.cache_data):
             return None
-        self.count += 1
-        for k, v in self.time_keeper.items():
-            if key == v:
-                del self.time_keeper[k]
-                break
-        self.time_keeper[self.count] = key
-        return self.cache_data[key]
+        else:
+            del self.history[self.history.index(key)]
+            self.history.append(key)
+            return self.cache_data[key]
