@@ -34,15 +34,19 @@ app.url_map.strict_slashes = False
 def get_locale():
     """Gets default locale
     """
-    locale = request.args.get('locale', None)
-    user = get_user()
-    locale_header = request.headers.get('locale', None)
-    locale_setting = user.get('locale', None)
+    locale = request.args.get('locale')
     if locale in app.config['LANGUAGES']:
         return locale
-    elif locale_setting != None and locale_setting in app.config['LANGUAGES']:
-        return user['locale']
-    elif locale_header in app.config['LANGUAGES']:
+
+    # Locale from user settings
+    if g.user:
+        locale = g.user.get('locale')
+        if locale and locale in app.config['LANGUAGES']:
+            return locale
+
+    # ocale from request header
+    locale = request.headers.get('locale', None)
+    if locale in app.config['LANGUAGES']:
         return locale
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
